@@ -1,6 +1,7 @@
 package com.bankaccount.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -142,8 +143,8 @@ public class AccountServiceTests {
 		Account accountAfterTransaction = optionalAccountAfterTransaction.get();
 		
 		log.info("Account After Transaction : {}, the Current balance : {} ", accountAfterTransaction, accountAfterTransaction.getCurrentBalance());
-		
-		assertEquals(currentBalanceBeforTransaction.subtract(transaction.getAmount()), accountAfterTransaction.getCurrentBalance());
+		// When the InsufficientFundsException is thrown the transaction is aborted no change in Account Balance  
+		assertTrue(currentBalanceBeforTransaction.compareTo(accountAfterTransaction.getCurrentBalance()) == 0);
 	
 	}
 }

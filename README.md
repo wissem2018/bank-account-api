@@ -30,12 +30,13 @@ GET /transactions
 GET /transactions/{id}    	
 
 <b>Unit TEST <b> 
-  - Persistence Tests 
-        src/test/java/persistence 
-  - Service Tests  
-        src/test/java/service  
-<b>Integration TEST <b>   
-   src/test/java/resource  
+  - Persistence Tests  
+	src/test/java/persistence 
+  - Service Tests  	
+	src/test/java/service  
+<b>Integration Tests <b>   
+   - Resource Tests  
+	src/test/java/resource  
     * executeAccountWithdrawTransaction_thenAcountBalanceUpdated  
        // Scenario: An existing client withdraws from his account  
 	     // Given an existing client named "pierre-jean" with 100.0 EUR in his account  

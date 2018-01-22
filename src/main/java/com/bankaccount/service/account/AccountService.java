@@ -26,12 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 public class AccountService {
 	
 	@Autowired
-	private AccountRepository accountRepository;
-	
-	@Autowired
-	private TransactionRepository transactionRepository;
-	
-	@Autowired
 	private TransactionTypeRepository transactionTypeRepository;
 	
 	@Autowired

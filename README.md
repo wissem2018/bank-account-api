@@ -20,7 +20,7 @@ Swagger URL : http://localhost:8080/bank-account-api/swagger-ui.html#/
 GET /accounts	: retrieve all accounts    
 GET /accounts/{id}	: retrieve an account with id   
 GET /accounts/{id}/transactions	: retrive all account transactions   
-POST /accounts/{id}/transactions/execute	POST : execute a transaction of a Withdraw (W) or Deposit (D)  
+POST /accounts/{id}/transactions/process POST : process a transaction of a Withdraw (W) or Deposit (D)  
 
 3) Transaction Resource  
 GET /transactions  
@@ -37,13 +37,13 @@ a) Persistence Tests
 2) Integration Tests  
 a) Resource Tests    
    src/test/java/resource  
-    * executeAccountWithdrawTransaction_thenAcountBalanceUpdated  
+    * processAccountWithdrawTransaction_thenAcountBalanceUpdated  
        // Scenario: An existing client withdraws from his account  
 	     // Given an existing client named "pierre-jean" with 100.0 EUR in his account  
 	     // When he withdraws 10.0 EUR from his account  
 	     // Then the new balance is 90.0 EUR  
    
-    * executeAccountDepositTransaction_thenAcountBalanceUpdated  
+    * processAccountDepositTransaction_thenAcountBalanceUpdated  
        // Scenario: An existing client deposit on his account  
 	     // Given an existing client named "pierre-jean" with 100.0 EUR in his account  
 	     // When he deposit 10.0 EUR from his account  

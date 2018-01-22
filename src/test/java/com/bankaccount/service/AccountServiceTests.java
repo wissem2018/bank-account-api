@@ -19,7 +19,7 @@ import com.bankaccount.persistence.entities.Account;
 import com.bankaccount.persistence.entities.Transaction;
 import com.bankaccount.persistence.repos.AccountRepository;
 import com.bankaccount.service.account.AccountService;
-import com.bankaccount.service.exception.InsufficientFundsException;
+import com.bankaccount.service.exception.AccountException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,7 +37,7 @@ public class AccountServiceTests {
 	
 	@Test
 	@DirtiesContext
-	public void executeAccountWithdrawTransaction_thenAcountBalanceUpdated() throws InsufficientFundsException {
+	public void executeAccountWithdrawTransaction_thenAcountBalanceUpdated() throws AccountException {
 		// 1. Arrange 
 		Optional<Account> optionalAccount =  accountRepository.findById(10000L);
 		Account account = optionalAccount.get();
@@ -64,7 +64,7 @@ public class AccountServiceTests {
 	
 	@Test
 	@DirtiesContext
-	public void executeAccountDepositTransaction_thenAcountBalanceUpdated() throws InsufficientFundsException {
+	public void executeAccountDepositTransaction_thenAcountBalanceUpdated() throws AccountException {
 		// 1. Arrange
 		Optional<Account> optionalAccount =  accountRepository.findById(10000L);
 		Account account = optionalAccount.get();

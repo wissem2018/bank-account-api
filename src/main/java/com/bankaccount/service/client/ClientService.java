@@ -5,9 +5,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bankaccount.persistence.entities.Account;
 import com.bankaccount.persistence.entities.Client;
-import com.bankaccount.persistence.repos.AccountRepository;
 import com.bankaccount.persistence.repos.ClientRepository;
 
 @Service

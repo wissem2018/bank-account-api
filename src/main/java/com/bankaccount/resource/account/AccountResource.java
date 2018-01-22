@@ -19,7 +19,7 @@ import com.bankaccount.persistence.repos.AccountRepository;
 import com.bankaccount.resource.exceptions.AccountNotFoundException;
 import com.bankaccount.resource.exceptions.FundsException;
 import com.bankaccount.service.account.AccountService;
-import com.bankaccount.service.exception.InsufficientFundsException;
+import com.bankaccount.service.exception.AccountException;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -112,8 +112,8 @@ public class AccountResource {
 		Account accountResult;
 		try {
 			accountResult = this.accountService.executeAccountTransaction(optionalAccount.get(), transaction);
-		} catch (InsufficientFundsException e) {
-			throw new FundsException("101","Insuffisant funds");
+		} catch (AccountException e) {
+			throw new FundsException(e.getCode() ,e.getMessage());
 		}
 		
 		return ResponseEntity.ok(accountResult);

@@ -8,10 +8,8 @@ import org.springframework.stereotype.Service;
 import com.bankaccount.persistence.entities.Account;
 import com.bankaccount.persistence.entities.Transaction;
 import com.bankaccount.persistence.entities.TransactionType;
-import com.bankaccount.persistence.repos.AccountRepository;
-import com.bankaccount.persistence.repos.TransactionRepository;
 import com.bankaccount.persistence.repos.TransactionTypeRepository;
-import com.bankaccount.service.exception.InsufficientFundsException;
+import com.bankaccount.service.exception.AccountException;
 import com.bankaccount.utils.BankAccountGlobalProperties;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,10 +35,10 @@ public class AccountService {
 	 * @param account account before transaction
 	 * @param transaction
 	 * @return Account account after transaction
-	 * @throws InsufficientFundsException
+	 * @throws AccountException
 	 */
 	
-	public Account executeAccountTransaction (Account account, Transaction transaction ) throws InsufficientFundsException {
+	public Account executeAccountTransaction (Account account, Transaction transaction ) throws AccountException {
 		
 		TransactionType withdrawTransactionType = transactionTypeRepository.findByCode(bankAccountGlobalProperties.getTransactionTypeCodeDefault());
 		// Initialize the transaction balance with the account currentBalance		
@@ -50,8 +48,7 @@ public class AccountService {
 			log.info("Withdraw transaction : {} with balance = {}  ", account, account.getCurrentBalance());
 			if (account.getCurrentBalance().compareTo(transaction.getAmount()) < 0 ){
 				log.info("Withdraw with InsufficientFunds" );
-				throw new InsufficientFundsException("Not enough funds");
-			}
+				throw new AccountException("100", "Not enough funds", "");			}
 			
 			
 			account.setCurrentBalance(account.getCurrentBalance().subtract(transaction.getAmount()));

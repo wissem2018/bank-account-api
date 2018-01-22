@@ -18,7 +18,11 @@ import com.bankaccount.persistence.repos.TransactionRepository;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * This class exposes the transaction resource
+ * @author wabdeljaouad
+ *
+ */
 @RestController
 @Slf4j
 @Api(value="transactionResource", description="Operations on the transaction resource")
@@ -28,6 +32,10 @@ public class TransactionResource {
 	@Autowired
 	private TransactionRepository transactionRepository;
 	
+	/**
+	 * Retrieve the list of all transactions
+	 * @return List of all transactions
+	 */
 	@GetMapping(path="/transactions")
 	public List<Transaction> retrieveAllTransactions(){
 		List<Transaction> transactions = transactionRepository.findAll();
@@ -35,6 +43,11 @@ public class TransactionResource {
 		return transactions;
 	}
 	
+	/**
+	 * Retrieve a transaction 
+	 * @param id of the transaction
+	 * @return
+	 */
 	@GetMapping(path="/transactions/{id}")
 	public Transaction retrieveTransactionById(@PathVariable Long id){
 		Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
@@ -42,6 +55,11 @@ public class TransactionResource {
 		return optionalTransaction.get();
 	}
 	
+	/**
+	 * Add a transaction
+	 * @param transaction
+	 * @return uri for the new transaction
+	 */
 	@PostMapping(path="/transactions")
 	public ResponseEntity<Object> saveTransaction(@RequestBody Transaction transaction){
 		Transaction savedTransaction = this.transactionRepository.save(transaction);

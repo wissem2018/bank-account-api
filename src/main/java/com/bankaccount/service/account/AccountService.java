@@ -15,7 +15,11 @@ import com.bankaccount.service.exception.InsufficientFundsException;
 import com.bankaccount.utils.BankAccountGlobalProperties;
 
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * This class implements methods that manage the account
+ * @author wabdeljaouad
+ *
+ */
 @Service
 @Transactional
 @Slf4j
@@ -32,6 +36,15 @@ public class AccountService {
 	
 	@Autowired
 	private BankAccountGlobalProperties bankAccountGlobalProperties;
+	
+	/**
+	 * This method execute an account transaction
+	 * the transaction can be of type Withdraw (code = W ) or Deposit ( code = D )   
+	 * @param account account before transaction
+	 * @param transaction
+	 * @return Account account after transaction
+	 * @throws InsufficientFundsException
+	 */
 	
 	public Account executeAccountTransaction (Account account, Transaction transaction ) throws InsufficientFundsException {
 		

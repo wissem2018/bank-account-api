@@ -7,7 +7,7 @@
 - lombok
 - Documentation : Swagger2  
 
-<b>Starting the application <b>
+## Starting the application    
    mvn spring-boot:run
   
    

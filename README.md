@@ -22,21 +22,22 @@ GET /accounts/{id}/transactions	: retrive all account transactions
 POST /accounts/{id}/transactions/execute	POST : execute a transaction of a Withdraw (W) or Deposit (D)  
 
 2) Client Resource     
-GET /clients      	
+GET /clients  
 GET /clients/{id}      	
 
 3) Transaction Resource  
-GET /transactions    	
+GET /transactions  
 GET /transactions/{id}    	
 
 1) Unit TEST
-  - Persistence Tests  
+  a) Persistence Tests  
 	src/test/java/persistence 
-  - Service Tests  	
+  b) Service Tests  	
 	src/test/java/service  
 2) Integration Tests
-   - Resource Tests  
-	src/test/java/resource  
+   a) Resource Tests    
+   
+   src/test/java/resource  
     * executeAccountWithdrawTransaction_thenAcountBalanceUpdated  
        // Scenario: An existing client withdraws from his account  
 	     // Given an existing client named "pierre-jean" with 100.0 EUR in his account  

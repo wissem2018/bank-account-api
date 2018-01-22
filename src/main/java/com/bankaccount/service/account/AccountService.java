@@ -49,7 +49,8 @@ public class AccountService {
 	public Account executeAccountTransaction (Account account, Transaction transaction ) throws InsufficientFundsException {
 		
 		TransactionType withdrawTransactionType = transactionTypeRepository.findByCode(bankAccountGlobalProperties.getTransactionTypeCodeDefault());
-				
+		// Initialize the transaction balance with the account currentBalance		
+		transaction.setBalance(account.getCurrentBalance());
 		
 		if(withdrawTransactionType.getCode().equals(transaction.getTransactionType().getCode())) {
 			log.info("Withdraw transaction : {} with balance = {}  ", account, account.getCurrentBalance());
@@ -57,6 +58,8 @@ public class AccountService {
 				log.info("Withdraw with InsufficientFunds" );
 				throw new InsufficientFundsException("Not enough funds");
 			}
+			
+			
 			account.setCurrentBalance(account.getCurrentBalance().subtract(transaction.getAmount()));
 			
 			
@@ -67,7 +70,7 @@ public class AccountService {
 			account.setCurrentBalance(account.getCurrentBalance().add(transaction.getAmount()));
 		}
 		
-		transaction.setBalance(account.getCurrentBalance());
+		
 		transaction.setAccount(account);
 		account.addTransaction(transaction);
 		

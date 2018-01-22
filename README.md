@@ -29,13 +29,13 @@ GET /clients/{id}
 GET /transactions  
 GET /transactions/{id}    	
 
-1) Unit TEST
-  a) Persistence Tests  
-	src/test/java/persistence 
-  b) Service Tests  	
-	src/test/java/service  
-2) Integration Tests
-   a) Resource Tests    
+1) Unit TEST  
+a) Persistence Tests  
+  src/test/java/persistence  
+  b) Service Tests  
+  src/test/java/service  
+2) Integration Tests  
+a) Resource Tests    
    
    src/test/java/resource  
     * executeAccountWithdrawTransaction_thenAcountBalanceUpdated  

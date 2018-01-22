@@ -1,4 +1,4 @@
-# bank-account-api
+## bank-account-api
 <b> This API is for a bank account </b>
 
 <b> Technologies </b>
@@ -11,7 +11,7 @@
    mvn spring-boot:run
   
    
-<b>Resource API </b>
+## API Documentation
 
 Swagger URL : http://localhost:8080/bank-account-api/swagger-ui.html#/
 
@@ -26,11 +26,14 @@ POST /accounts/{id}/transactions/execute	POST : execute a transaction of a Withd
 GET /transactions  
 GET /transactions/{id}    	
 
+## API Tests
 1) Unit TEST  
+
 a) Persistence Tests  
   src/test/java/persistence  
   b) Service Tests  
   src/test/java/service  
+
 2) Integration Tests  
 a) Resource Tests    
    src/test/java/resource  

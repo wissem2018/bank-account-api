@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.bankaccount.BankAccountApiApplication;
@@ -46,6 +48,7 @@ public class AccountResourceTests {
 	HttpHeaders headers = new HttpHeaders();
 
 	@Test
+	@DirtiesContext
 	public void testRetrieveAccountById() throws JSONException {
 		
 		
@@ -65,6 +68,7 @@ public class AccountResourceTests {
 	 * @throws JSONException
 	 */
 	@Test
+	@DirtiesContext
 	public void executeAccountWithdrawTransaction_thenAcountBalanceUpdated() throws JSONException {
 		 
 		 // Scenario: An existing client withdraws from his account
@@ -105,6 +109,7 @@ public class AccountResourceTests {
 	 * @throws JSONException
 	 */
 	@Test
+	@DirtiesContext
 	public void executeAccountDepositTransaction_thenAcountBalanceUpdated() throws JSONException {
 		// Scenario: An existing client withdraws from his account
 	     // Given an existing client named "pierre-jean" with 100.0 EUR in his account
@@ -139,15 +144,16 @@ public class AccountResourceTests {
 	
 	
 	/**
-	 * Test for a deposit transaction
+	 * Test for a withdraw transaction throwing insuffisantFunds
 	 * @throws JSONException
 	 */
 	@Test
+	@DirtiesContext
 	public void executeAccountWithdrawTransaction_thenInsufficientFundsException() throws JSONException {
 		// Scenario: An existing client withdraws from his account
 	     // Given an existing client named "pierre-jean" with 100.0 EUR in his account
-	     // When he withdraws 10.0 EUR from his account
-	     // Then the new balance is 110.0 EUR
+	     // When he withdraws 110.0 EUR from his account
+	     // Then the transaction is aborted and his balance will not change = 100.00
 
 		Optional<Account> optionalAccount =  accountRepository.findById(10000L);
 		Account account = optionalAccount.get();
@@ -156,9 +162,9 @@ public class AccountResourceTests {
 		log.info("Account Before transaction : {} with balance = ", account, account.getCurrentBalance());
 		
 		// Deposit transaction
-		Optional<TransactionType> transactionType = transactionTypeRepository.findById(1L);
+		Optional<TransactionType> transactionType = transactionTypeRepository.findById(2L);
 		
-		Transaction transaction = new Transaction(BigDecimal.valueOf(10.00), account.getCurrentBalance(), LocalDateTime.now(), transactionType.get(), "Deposit 10.00 euros");
+		Transaction transaction = new Transaction(BigDecimal.valueOf(150.00), account.getCurrentBalance(), LocalDateTime.now(), transactionType.get(), "Withdraw 150.00 euros");
 
 		
 		HttpEntity<Transaction> entity = new HttpEntity<Transaction>(transaction, headers);
@@ -166,13 +172,17 @@ public class AccountResourceTests {
 		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/bank-account-api/accounts/10000/transactions/execute"),
 				HttpMethod.POST, entity, String.class);
 		
-		log.info("Account After transaction : {} with balance = ", response.getBody());
+		log.info("Account After transaction : {} ", response.getBody());
 		
-		// Expected account current balance : 100.00 + 10.00 = 110.00 
+		// Expected account current balance : 100.00 - 150.00 throw InsufficientFundsException and  current balance = 100.00
 	
-		String expected = "{\"id\":10000,\"accountNumber\":\"AAA124574\",\"openedDate\":\"2000-01-31T00:00:00\",\"closedDateTime\":null,\"currentBalance\":110.00,\"allowOverdraft\":false,\"overdraftAmount\":0.00,\"details\":\"Credit Account\"}";
+		String expected = "{\"timestamp\":\"2018-01-23T07:46:16.780Z\",\"message\":\"Insuffisant funds\",\"code\":\"101\",\"details\":\"uri=/bank-account-api/accounts/10000/transactions/execute\"}";
 		
-		JSONAssert.assertEquals(expected, response.getBody(), false);
+		JSONObject expectedObject = new JSONObject(expected);
+		JSONObject actualObject = new JSONObject(response.getBody());
+		
+		
+		JSONAssert.assertEquals(expectedObject.get("code").toString(), actualObject.get("code").toString(), false);
 	}
 
 	

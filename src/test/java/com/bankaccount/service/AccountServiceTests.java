@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.bankaccount.persistence.entities.Account;
@@ -40,6 +41,7 @@ public class AccountServiceTests {
 	
 	
 	@Test
+	@DirtiesContext
 	public void executeAccountWithdrawTransaction_thenAcountBalanceUpdated() {
 		
 		Optional<Account> optionalAccount =  accountRepository.findById(10000L);
@@ -77,6 +79,7 @@ public class AccountServiceTests {
 	
 	
 	@Test
+	@DirtiesContext
 	public void executeAccountDepositTransaction_thenAcountBalanceUpdated() {
 		
 		Optional<Account> optionalAccount =  accountRepository.findById(10000L);
@@ -113,6 +116,7 @@ public class AccountServiceTests {
 	}
 	
 	@Test
+	@DirtiesContext
 	public void executeAccountWithdrawTransaction_thenInsufficientFundsException() {
 		
 		Optional<Account> optionalAccount =  accountRepository.findById(10000L);

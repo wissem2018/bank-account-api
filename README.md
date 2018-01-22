@@ -21,10 +21,6 @@ GET /accounts/{id}	: retrieve an account with id
 GET /accounts/{id}/transactions	: retrive all account transactions   
 POST /accounts/{id}/transactions/execute	POST : execute a transaction of a Withdraw (W) or Deposit (D)  
 
-2) Client Resource     
-GET /clients  
-GET /clients/{id}      	
-
 3) Transaction Resource  
 GET /transactions  
 GET /transactions/{id}    	
@@ -36,7 +32,6 @@ a) Persistence Tests
   src/test/java/service  
 2) Integration Tests  
 a) Resource Tests    
-   
    src/test/java/resource  
     * executeAccountWithdrawTransaction_thenAcountBalanceUpdated  
        // Scenario: An existing client withdraws from his account  
@@ -45,13 +40,8 @@ a) Resource Tests
 	     // Then the new balance is 90.0 EUR  
    
     * executeAccountDepositTransaction_thenAcountBalanceUpdated  
-       // Scenario: An existing client withdraws from his account  
+       // Scenario: An existing client deposit on his account  
 	     // Given an existing client named "pierre-jean" with 100.0 EUR in his account  
-	     // When he withdraws 10.0 EUR from his account  
+	     // When he deposit 10.0 EUR from his account  
 	     // Then the new balance is 110.0 EUR  
-    * executeAccountWithdrawTransaction_thenInsufficientFundsException  
-      // Scenario: An existing client withdraws from his account  
-	     // Given an existing client named "pierre-jean" with 100.0 EUR in his account  
-	     // When he withdraws 150.0 EUR from his account  
-	     // Then the transaction is aborted and no changes in his account, balance = 100.00  
-
+    

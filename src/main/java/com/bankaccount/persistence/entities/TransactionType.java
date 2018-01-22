@@ -7,8 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,12 +20,14 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor
 public class TransactionType {
 	
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	private String type;
 	private String code;
 	private String description;
+	
 	
 	@UpdateTimestamp
 	private LocalDateTime lastUpdatedDate;

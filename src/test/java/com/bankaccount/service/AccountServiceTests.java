@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import com.bankaccount.service.exception.InsufficientFundsException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class AccountServiceTests {
 	
 	@Autowired

@@ -19,6 +19,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.bankaccount.utils.BankAccountGlobalProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
@@ -79,7 +80,6 @@ public class Account {
 		this.details = details;
 	}
 	
-
 	@Override
 	public String toString() {
 		return "Account [accountNumber=" + accountNumber + ", openedDate=" + openedDate + ", closedDateTime="

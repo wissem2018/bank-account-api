@@ -67,12 +67,9 @@ public class AccountService {
 			account.setCurrentBalance(account.getCurrentBalance().add(transaction.getAmount()));
 		}
 		
-		
+		transaction.setBalance(account.getCurrentBalance());
 		transaction.setAccount(account);
-
-		transactionRepository.save(transaction);
-		
-		accountRepository.save(account);
+		account.addTransaction(transaction);
 		
 		return account;
 		

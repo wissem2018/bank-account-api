@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class AccountRepositoryTests {
 	
 	@Autowired

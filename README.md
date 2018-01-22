@@ -3,7 +3,8 @@
 
 <b> Technologies </b>
 - Spring boot : Spring Data, Spring Rest, Spring hal  
-- Database : H2, MySql  
+- Database : H2, MySql
+- lombok
 - Documentation : Swagger2  
 
 <b>Starting the application <b>

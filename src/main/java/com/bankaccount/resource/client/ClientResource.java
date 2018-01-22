@@ -15,7 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.bankaccount.persistence.entities.Client;
 import com.bankaccount.persistence.repos.ClientRepository;
-import com.bankaccount.service.ClientService;
+import com.bankaccount.service.client.ClientService;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.bankaccount.service;
+package com.bankaccount.service.client;
 
 import javax.transaction.Transactional;
 

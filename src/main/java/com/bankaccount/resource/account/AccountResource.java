@@ -18,7 +18,7 @@ import com.bankaccount.persistence.entities.Transaction;
 import com.bankaccount.persistence.repos.AccountRepository;
 import com.bankaccount.resource.exceptions.AccountNotFoundException;
 import com.bankaccount.resource.exceptions.FundsException;
-import com.bankaccount.service.AccountService;
+import com.bankaccount.service.account.AccountService;
 import com.bankaccount.service.exception.InsufficientFundsException;
 
 import io.swagger.annotations.Api;

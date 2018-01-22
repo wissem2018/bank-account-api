@@ -1,10 +1,8 @@
 package com.bankaccount.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -14,141 +12,76 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.bankaccount.DataFactory;
 import com.bankaccount.persistence.entities.Account;
 import com.bankaccount.persistence.entities.Transaction;
-import com.bankaccount.persistence.entities.TransactionType;
 import com.bankaccount.persistence.repos.AccountRepository;
-import com.bankaccount.persistence.repos.TransactionRepository;
-import com.bankaccount.persistence.repos.TransactionTypeRepository;
+import com.bankaccount.service.account.AccountService;
 import com.bankaccount.service.exception.InsufficientFundsException;
-
-import lombok.extern.slf4j.Slf4j;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Slf4j
 public class AccountServiceTests {
 	
 	@Autowired
 	private AccountRepository accountRepository;
 	
 	@Autowired
-	private TransactionTypeRepository transactionTypeRepository;
-	
-	@Autowired
 	private AccountService accountService;
 
-	
+	@Autowired
+	private DataFactory dataFactory;
 	
 	@Test
 	@DirtiesContext
-	public void executeAccountWithdrawTransaction_thenAcountBalanceUpdated() {
-		
+	public void executeAccountWithdrawTransaction_thenAcountBalanceUpdated() throws InsufficientFundsException {
+		// 1. Arrange 
 		Optional<Account> optionalAccount =  accountRepository.findById(10000L);
 		Account account = optionalAccount.get();
 		
-		// CurrentBalance before transaction
-		
 		BigDecimal currentBalanceBeforTransaction = account.getCurrentBalance();
-		
-		log.info("Account Before Transaction : {}, the Current balance : {} ", account, account.getCurrentBalance());
-		
 		// Withdraw transaction
-		Optional<TransactionType> transactionType = transactionTypeRepository.findById(2L);
-		
-		Transaction transaction = new Transaction(BigDecimal.valueOf(10.00), account.getCurrentBalance(), LocalDateTime.now(), transactionType.get(), "Withdraw 10.00 euros");
-		
-		log.info("New Transaction : {}, type : {}, amount : {} ", transaction, transaction.getTransactionType().getType(), transaction.getAmount());
+		Transaction transaction = dataFactory.getWithDrawTransaction();
+		// Expected expectedBalance : 100.00 - 10.00 = 90.00
+		BigDecimal expectedBalance = currentBalanceBeforTransaction.subtract(transaction.getAmount());
 		
 		
-		try {
-			accountService.executeAccountTransaction(account, transaction);
+
+		// 2. Act
+		accountService.executeAccountTransaction(account, transaction);
 		
-		} catch (InsufficientFundsException e) {
-			log.info("InsufficientFundsException : {} ", e.getMessage());
-		}
-		
+		// 3. Assert
 		Optional<Account> optionalAccountAfterTransaction =  accountRepository.findById(10000L);
 		Account accountAfterTransaction = optionalAccountAfterTransaction.get();
 		
-		log.info("Account After Transaction : {}, the Current balance : {} ", accountAfterTransaction, accountAfterTransaction.getCurrentBalance());
-		
-		assertEquals(currentBalanceBeforTransaction.subtract(transaction.getAmount()), accountAfterTransaction.getCurrentBalance());
+		assertEquals(expectedBalance, accountAfterTransaction.getCurrentBalance());
 	
 	}
 	
 	
 	@Test
 	@DirtiesContext
-	public void executeAccountDepositTransaction_thenAcountBalanceUpdated() {
-		
+	public void executeAccountDepositTransaction_thenAcountBalanceUpdated() throws InsufficientFundsException {
+		// 1. Arrange
 		Optional<Account> optionalAccount =  accountRepository.findById(10000L);
 		Account account = optionalAccount.get();
-		
 		// CurrentBalance before transaction
-		
 		BigDecimal currentBalanceBeforTransaction = account.getCurrentBalance();
+		// Deposit transaction
+		Transaction transaction = dataFactory.getDepositTransaction();
+		// Expected expectedBalance : 100.00 + 10.00 = 110.00
+		BigDecimal expectedBalance = currentBalanceBeforTransaction.add(transaction.getAmount());
 		
-		log.info("Account Before Transaction : {}, the Current balance : {} ", account, account.getCurrentBalance());
+		// 2. Act
+		accountService.executeAccountTransaction(account, transaction);
 		
-		// Withdraw transaction
-		Optional<TransactionType> transactionType = transactionTypeRepository.findById(1L);
-		
-		Transaction transaction = new Transaction(BigDecimal.valueOf(10.00), account.getCurrentBalance(), LocalDateTime.now(), transactionType.get(), "Deposit 10.00 euros");
-		
-		log.info("New Transaction : {}, type : {}, amount : {} ", transaction, transaction.getTransactionType().getType(), transaction.getAmount());
-		
-		
-		try {
-			accountService.executeAccountTransaction(account, transaction);
-		
-		} catch (InsufficientFundsException e) {
-			log.info("InsufficientFundsException : {} ", e.getMessage());
-		}
-		
+		// 3. Assert
 		Optional<Account> optionalAccountAfterTransaction =  accountRepository.findById(10000L);
 		Account accountAfterTransaction = optionalAccountAfterTransaction.get();
 		
-		log.info("Account After Transaction : {}, the Current balance : {} ", accountAfterTransaction, accountAfterTransaction.getCurrentBalance());
-		
-		assertEquals(currentBalanceBeforTransaction.subtract(transaction.getAmount()), accountAfterTransaction.getCurrentBalance());
+		assertEquals(expectedBalance, accountAfterTransaction.getCurrentBalance());
 	
 	}
 	
-	@Test
-	@DirtiesContext
-	public void executeAccountWithdrawTransaction_thenInsufficientFundsException() {
-		
-		Optional<Account> optionalAccount =  accountRepository.findById(10000L);
-		Account account = optionalAccount.get();
-		
-		// CurrentBalance before transaction
-		
-		BigDecimal currentBalanceBeforTransaction = account.getCurrentBalance();
-		
-		log.info("Account Before Transaction : {}, the Current balance : {} ", account, account.getCurrentBalance());
-		
-		// Withdraw transaction
-		Optional<TransactionType> transactionType = transactionTypeRepository.findById(2L);
-		
-		Transaction transaction = new Transaction(BigDecimal.valueOf(110.00), account.getCurrentBalance(), LocalDateTime.now(), transactionType.get(), "Withdraw 10.00 euros");
-		
-		log.info("New Transaction : {}, type : {}, amount : {} ", transaction, transaction.getTransactionType().getType(), transaction.getAmount());
-		
-		
-		try {
-			accountService.executeAccountTransaction(account, transaction);
-		
-		} catch (InsufficientFundsException e) {
-			log.info("InsufficientFundsException : {} ", e.getMessage());
-		}
-		
-		Optional<Account> optionalAccountAfterTransaction =  accountRepository.findById(10000L);
-		Account accountAfterTransaction = optionalAccountAfterTransaction.get();
-		
-		log.info("Account After Transaction : {}, the Current balance : {} ", accountAfterTransaction, accountAfterTransaction.getCurrentBalance());
-		// When the InsufficientFundsException is thrown the transaction is aborted no change in Account Balance  
-		assertTrue(currentBalanceBeforTransaction.compareTo(accountAfterTransaction.getCurrentBalance()) == 0);
 	
-	}
 }

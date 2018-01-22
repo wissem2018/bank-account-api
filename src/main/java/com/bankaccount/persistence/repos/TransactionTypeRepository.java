@@ -7,5 +7,7 @@ import com.bankaccount.persistence.entities.TransactionType;
 
 @Repository
 public interface TransactionTypeRepository extends JpaRepository<TransactionType, Long>{
+	
+ 	TransactionType findByCode(String code);
 
 }

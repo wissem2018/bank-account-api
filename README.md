@@ -2,9 +2,9 @@
 <b> This API is for a bank account </b>
 
 <b> Technologies </b>
-- Spring boot : Spring Data, Spring Rest, Spring hal
-- Database : H2, MySql
-- Documentation : Swagger2
+- Spring boot : Spring Data, Spring Rest, Spring hal  
+- Database : H2, MySql  
+- Documentation : Swagger2  
 
 <b> Starting the application <b>
    mvn spring-boot:run
@@ -16,14 +16,14 @@ Swagger URL : http://localhost:8080/bank-account-api/swagger-ui.html#/
 
 1) Account Resource :
 
-GET /accounts	: retrieve all accounts 
+GET /accounts	: retrieve all accounts    
 GET /accounts/{id}	: retrieve an account with id 
 GET /accounts/{id}/transactions	: retrive all account transactions 
 POST /accounts/{id}/transactions/execute	POST : execute a transaction of a Withdraw (W) or Deposit (D)
 
-2) Client Resource
-GET /clients	
-GET /clients/{id}	
+2) Client Resource  
+GET /clients  	
+GET /clients/{id}  	
 
 3) Transaction Resource
 GET /transactions	

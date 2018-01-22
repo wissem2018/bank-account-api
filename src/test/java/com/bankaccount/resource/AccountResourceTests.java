@@ -54,7 +54,7 @@ public class AccountResourceTests {
 	 */
 	@Test
 	@DirtiesContext
-	public void executeAccountWithdrawTransaction_thenAcountBalanceUpdated() throws JSONException {
+	public void processAccountWithdrawTransaction_thenAcountBalanceUpdated() throws JSONException {
 		 
 		 // Scenario: An existing client withdraws from his account
 	     // Given an existing client named "pierre-jean" with 100.0 EUR in his account
@@ -91,7 +91,7 @@ public class AccountResourceTests {
 	 */
 	@Test
 	@DirtiesContext
-	public void executeAccountDepositTransaction_thenAcountBalanceUpdated() throws JSONException {
+	public void processAccountDepositTransaction_thenAcountBalanceUpdated() throws JSONException {
 		 // Scenario: An existing client deposit on his account  
 	     // Given an existing client named "pierre-jean" with 100.0 EUR in his account  
 	     // When he deposit 10.0 EUR from his account  

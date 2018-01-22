@@ -21,6 +21,7 @@ public class FundsException extends RuntimeException {
 	private String message;
 	
 	
+	
 	public FundsException(String code, String message) {
 		this.code = code;
 		this.message = message;

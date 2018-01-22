@@ -101,7 +101,7 @@ public class AccountResource {
 	 * @param the id of the account 
 	 * @return the list of the account transaction's 
 	 */
-	@PostMapping(path="/accounts/{id}/transactions/execute")
+	@PostMapping(path="/accounts/{id}/transactions/process")
 	public ResponseEntity<Object> executeWithdrawOrDepositAccountTransactions(@PathVariable Long id, @RequestBody Transaction transaction) {
 		Optional<Account> optionalAccount = this.accountRepository.findById(id);
 		if (!optionalAccount.isPresent()) {
@@ -111,7 +111,7 @@ public class AccountResource {
 		
 		Account accountResult;
 		try {
-			accountResult = this.accountService.executeAccountTransaction(optionalAccount.get(), transaction);
+			accountResult = this.accountService.processAccountTransaction(optionalAccount.get(), transaction);
 		} catch (AccountException e) {
 			throw new FundsException(e.getCode() ,e.getMessage());
 		}

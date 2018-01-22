@@ -19,15 +19,17 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.bankaccount.utils.BankAccountGlobalProperties;
+import com.bankaccount.service.exception.AccountException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 @Entity
 @Data @NoArgsConstructor
+@Slf4j
 public class Account {
 	@Setter(value=AccessLevel.NONE)	
 	@Id
@@ -59,6 +61,7 @@ public class Account {
 	@CreationTimestamp
 	private LocalDateTime createdDate;
 	
+	
 	public void addTransaction(Transaction transaction) {
 		this.transactions.add(transaction);
 	}
@@ -79,6 +82,29 @@ public class Account {
 		this.overdraftAmount = overdraftAmount;
 		this.details = details;
 	}
+	
+	/**
+	 * Process the transaction 
+	 * @param transaction
+	 * @throws AccountException
+	 */
+	public void processTransaction(Transaction transaction) throws AccountException {
+		if(TransactionTypeCode.WITHDRAW.getCode().equals(transaction.getTransactionType().getCode())) {
+			log.info("Withdraw transaction : {} with balance = {}  ", this, this.getCurrentBalance());
+			if (this.getCurrentBalance().compareTo(transaction.getAmount()) < 0 ){
+				log.info("Withdraw with InsufficientFunds" );
+				throw new AccountException("100", "Not enough funds", "");			}
+				this.setCurrentBalance(this.getCurrentBalance().subtract(transaction.getAmount()));
+		} else {
+		// Deposit type transaction
+			log.info("Deposit transaction : {} with balance = {}  ", this, this.getCurrentBalance());
+			this.setCurrentBalance(this.getCurrentBalance().add(transaction.getAmount()));
+		}
+		transaction.setAccount(this);
+		this.addTransaction(transaction);
+		
+	}
+	
 	
 	@Override
 	public String toString() {

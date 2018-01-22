@@ -37,7 +37,7 @@ public class AccountServiceTests {
 	
 	@Test
 	@DirtiesContext
-	public void executeAccountWithdrawTransaction_thenAcountBalanceUpdated() throws AccountException {
+	public void processAccountWithdrawTransaction_thenAcountBalanceUpdated() throws AccountException {
 		// 1. Arrange 
 		Optional<Account> optionalAccount =  accountRepository.findById(10000L);
 		Account account = optionalAccount.get();
@@ -51,7 +51,7 @@ public class AccountServiceTests {
 		
 
 		// 2. Act
-		accountService.executeAccountTransaction(account, transaction);
+		accountService.processAccountTransaction(account, transaction);
 		
 		// 3. Assert
 		Optional<Account> optionalAccountAfterTransaction =  accountRepository.findById(10000L);
@@ -64,7 +64,7 @@ public class AccountServiceTests {
 	
 	@Test
 	@DirtiesContext
-	public void executeAccountDepositTransaction_thenAcountBalanceUpdated() throws AccountException {
+	public void processAccountDepositTransaction_thenAcountBalanceUpdated() throws AccountException {
 		// 1. Arrange
 		Optional<Account> optionalAccount =  accountRepository.findById(10000L);
 		Account account = optionalAccount.get();
@@ -76,7 +76,7 @@ public class AccountServiceTests {
 		BigDecimal expectedBalance = currentBalanceBeforTransaction.add(transaction.getAmount());
 		
 		// 2. Act
-		accountService.executeAccountTransaction(account, transaction);
+		accountService.processAccountTransaction(account, transaction);
 		
 		// 3. Assert
 		Optional<Account> optionalAccountAfterTransaction =  accountRepository.findById(10000L);

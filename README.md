@@ -6,11 +6,11 @@
 - Database : H2, MySql  
 - Documentation : Swagger2  
 
-<b> Starting the application <b>
+<b>Starting the application <b>
    mvn spring-boot:run
   
    
-<b> Resource API </b>
+<b>Resource API </b>
 
 Swagger URL : http://localhost:8080/bank-account-api/swagger-ui.html#/
 
@@ -22,20 +22,20 @@ GET /accounts/{id}/transactions	: retrive all account transactions
 POST /accounts/{id}/transactions/execute	POST : execute a transaction of a Withdraw (W) or Deposit (D)  
 
 2) Client Resource     
-GET /clients    	
-GET /clients/{id}    	
+GET /clients      	
+GET /clients/{id}      	
 
 3) Transaction Resource  
-GET /transactions  	
-GET /transactions/{id}  	
+GET /transactions    	
+GET /transactions/{id}    	
 
-<b> Unit TEST <b> 
+<b>Unit TEST <b> 
   - Persistence Tests 
         src/test/java/persistence 
   - Service Tests  
         src/test/java/service  
- <b> Integration TEST <b>   
-      src/test/java/resource  
+<b>Integration TEST <b>   
+   src/test/java/resource  
     * executeAccountWithdrawTransaction_thenAcountBalanceUpdated  
        // Scenario: An existing client withdraws from his account  
 	     // Given an existing client named "pierre-jean" with 100.0 EUR in his account  
